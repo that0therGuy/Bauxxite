@@ -1,0 +1,325 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
+
+*{
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight:350;
+
+}
+body{
+    background-image: url('4.png');
+    background-color:rgb(255,255,255);
+    background-size: cover;
+
+    padding:0;
+    margin:0;
+}
+.nav{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding:50px;
+    text-align:center;
+    align-items: center;
+}
+h1,h6{
+    margin:0;
+}
+.bauxite{
+    display: flex;
+    flex-direction: row;
+    margin:0;
+    font-size:1em;
+}
+.baux{
+    transition:all 1s;
+}
+.main{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+}
+.lhs{
+    border:1px solid #000000;
+    height:70vh;
+    width:80vw;
+    overflow-y:auto;
+    padding-top:20px;
+    padding-bottom:20px;
+}
+a{
+    color:black;
+    text-decoration: none;
+}
+.github{
+    display:flex;
+    gap:4px;
+    cursor:pointer;
+    flex:1;
+    margin:0;
+}
+a{
+    transition: all .3s;
+}
+a:hover{
+    transform:translateY(-10px);
+}
+.lhstab{
+    height:70vh;
+    width:70px;
+    border:1px solid black;
+    border-right:none;
+}
+.lhstab button{
+    background:rgb(255,255,255,.15);
+    border:none;
+    border-bottom:1px solid black;
+    height:70px;
+    width:70px;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    z-index:999;
+    backdrop-filter: blur(10px);
+    transition:all .3s;
+
+}
+button p{
+    transition: background-color .7s, color .3s;
+
+    font-size:25px;
+
+}
+.createbtn:hover,.massbtn:hover,.impbtn:hover{
+    background-color:rgb(32,32,32);
+    color:white;
+    border-radius:50px;
+    scale:.7;
+
+}
+.top{
+    opacity:0;
+    transition:all .5s;
+    position: absolute;
+    border-bottom:1px solid black;
+    width:70vw;
+    height:70px;
+    padding:0;
+    display:none;
+    align-items: center;
+    justify-content: center;
+
+}
+.add{
+    border-radius:0;
+    border:1px dashed black;
+    height:80px;
+    width:45vw;
+    padding:0 45px 0 45px;
+    font-size:25px;
+    letter-spacing:1px;
+    text-align:center;
+
+
+
+}
+input:focus{
+    outline:none;
+}
+li{
+    background:rgb(255,255,255,.15);
+    list-style: none;
+    font-size:20px;
+    padding:25px;
+    border: 1px dashed black;
+    height:2em;
+    flex:2;
+    font-size:25px;
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-left:20px;
+    border-radius:10px;
+    backdrop-filter: blur(20px);
+
+
+
+
+}
+.li_div{
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    text-align: center;
+    gap:20px;
+    height:fit-content;
+    padding:10px;
+    resize:horizontal;
+    overflow:auto;
+    margin-right:25px;
+    max-width:100%;
+}
+ul{
+    padding:0;
+    margin:0;
+
+}
+.code_inp{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap:10px;
+    border-radius:5px;
+    height:fit-content;
+    width:fit-content;
+    padding:10px;
+    background-color: rgb(231,255,231,.5);
+    backdrop-filter: blur(20px);
+    border:1px solid #7ad397;
+    letter-spacing: 3px;
+    color: #001900;
+
+}
+li:focus{
+    outline:none;
+
+}
+.thumb{
+
+    height:100%;
+    border-radius:5px;
+
+}
+.wrapperlinks{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    text-align: center;
+    gap:20px;
+    align-items:center;
+
+
+}
+.sign{
+    color: #bd0000;
+    text-decoration: none;
+    outline:none;
+    border:none;
+    background-color:transparent;
+    font-size:1em;
+    flex:1;
+    letter-spacing:3px;
+    margin:0;
+    transition: all .3s;
+}
+.sign:hover{
+    transform:translateY(-5px);
+
+}
+p{
+    margin:0;
+}
+.date{
+    flex:1;
+    text-align:right;
+    margin-top:2px;
+    margin-right:20px;
+
+}
+#li_date{
+    flex:5;
+}
+.li_div_in {
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap:30px;
+}
+.li_div_p{
+    font-size:1.5em;
+}
+.li_div_p:focus{
+    outline:none;
+}
+.ggdealsdom{
+    font-size:.5em;
+}
+.prices_div{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap:10px;
+    border-radius:5px;
+    height:fit-content;
+    width:fit-content;
+    padding:10px;
+    background-color: rgb(195,255,195,.6);
+    backdrop-filter: blur(20px);
+    border:1px solid #4bd177;
+
+}
+.ggdealslowestprice{
+    font-size:.6em;
+}
+.ggdealsphoto{
+    border-radius: 2px;
+}
+.swal2-confirm{
+    background-color: #a0f383;
+    border:1px solid green;
+    color: #0c3301;
+    border-radius:0;
+
+}
+.swal2-input:focus{
+    border:none;
+
+}
+.swal2-confirm:hover{
+    background-color: #78c65c;
+    border:1px solid green;
+    color: #0c3301;
+    scale:1;
+    border-radius:0;
+}
+.swal2-cancel{
+    background-color: white;
+    border:1px solid #000000;
+    color: #0c3301;
+    border-radius:0;
+
+}
+.swal2-cancel:hover{
+    background-color: #d6d6d6;
+    border:1px solid #000000;
+    color: #0c3301;
+    scale:1;
+    border-radius:0;
+}
+.swal2-popup{
+    padding:20px;
+}
+.bg_change{
+    position: absolute;
+    bottom:0;
+    right:0;
+    margin:10px;
+    text-shadow: 0 0 10px #4ccbdf;
+    border-radius:50px;
+    padding:10px;
+    backdrop-filter: blur(20px);
+    font-size:24px;
+    transition: all .2s;
+    user-select: none!important;
+
+}
+.bg_change:hover{
+    scale:1.1;
+    cursor: default;
+}
