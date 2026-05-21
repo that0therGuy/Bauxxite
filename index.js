@@ -151,6 +151,7 @@ function updateGUI() {
         fetch(url)
             .then(res => res.json())
             .then(data => {
+                console.log(data)
                 let prices_div = document.createElement('div');
 
                 let ggdealsdom = document.createElement('h6')
