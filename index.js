@@ -93,7 +93,7 @@ function updateGUI() {
 
 
         const steamUrl = `https://store.steampowered.com/api/storesearch/?term=${storage[x].actual_name}&l=english&cc=US`;
-        const url = `https://corsproxy.io/?url=${encodeURIComponent(steamUrl)}`;
+        const url = `https://proxy.corsfix.com/?${steamUrl}`;
 
 
 
@@ -169,7 +169,7 @@ function updateGUI() {
                     data.items[0];
 
                 const target2 = `https://api.gg.deals/v1/prices/by-steam-app-id/?ids=${bestMatch.id}&key=SiDijFD5OmudA7TaT0QxQrvvmPm8f24l&region=us`
-                const url2 = `https://corsproxy.io/?url=${encodeURIComponent(target2)}`
+                const url2 = `https://proxy.corsfix.com/?${target2}`
                 let steamid = bestMatch.id
 
                 fetch(url2).then(res => res.json()).then((data) => {
