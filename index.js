@@ -146,6 +146,8 @@ function updateGUI() {
             }
         })
         code_inp.click()
+        let lowest_keyshop_price=0;
+        let lowest_shop_price=0;
         let li_date = document.createElement('div')
         li_date.setAttribute('id', `li_date`)
         fetch(url)
@@ -184,8 +186,9 @@ function updateGUI() {
                     prices_div.appendChild(ggdeals_lowestprice)
                     prices_div.classList.add('prices_div')
                     ggdeals_lowestprice.classList.add('ggdealslowestprice')
-
-                    ggdeals_lowestprice.innerText = `Lowest Keyshop Price: \$${data.data[steamid].prices.currentKeyshops}\nLowest Store Price: \$${data.data[steamid].prices.currentRetail}`;
+                    lowest_keyshop_price= data.data[steamid].prices.currentKeyshops
+                    lowest_shop_price=data.data[steamid].prices.currentRetail
+                    ggdeals_lowestprice.innerText = `Lowest Keyshop Price: \$${lowest_keyshop_price}\nLowest Store Price: \$${lowest_shop_price}`;
                     console.log(data)
                     li_div_in.appendChild(code_inp)
 
@@ -222,6 +225,7 @@ function updateGUI() {
         activeObservers.push(observer);
 
         document.querySelector('.lhs').appendChild(ul)
+
     }
 }
 
@@ -427,7 +431,7 @@ document.querySelector('.massbtn').addEventListener('click', async () => {
     const { value: listofgames } = await Swal.fire({
         title: 'Mass Add Games',
         input: 'textarea',
-        inputLabel: 'Paste the games and their codes in any organized or unorganized format.',
+        inputLabel: 'Paste the games and their codes in any organized or unorganized format. Your codes will be processed by AIs in the cloud so paste taking the risk into consideration. ',
         showCancelButton: true,
         confirmButtonText: 'Import',
         inputAttributes: { rows: 8 },
@@ -455,36 +459,101 @@ document.querySelector('.impbtn').addEventListener('click', ()=>{
     isimpmode= !isimpmode
 
 })
-let bg=0
+
+let bg= 0
+let change360=0
 document.querySelector('.bg_change').addEventListener('click', ()=>{
+    let container= document.querySelector('.container');
+    change360+=360
+    container.style.transform=`rotate(${change360}deg)`
+
     if (bg===4){
+
         bg=0
     }else{
         bg++
     }
 
+
+
     if (bg===0){
+        document.querySelector('.lhs').id=''
+        document.querySelector('.lhs').id='none'
+
+
+
+
+
         document.body.style.backgroundImage='none'
+
+
+
+
+
 
     }
     if (bg===1){
+
+
+        document.querySelector('.lhs').id=''
+        document.querySelector('.lhs').id='xp'
+
         document.body.style.backgroundImage=`url(${bg}.png)`
+
+
 
     }
     if (bg===2){
+        document.querySelector('.lhs').id=''
+        document.querySelector('.lhs').id='desert'
+
+
         document.body.style.backgroundImage=`url(${bg}.png)`
 
     }
     if (bg===3){
+        document.querySelector('.lhs').id=''
+        document.querySelector('.lhs').id='pink'
+
+
         document.body.style.backgroundImage=`url(${bg}.png)`
 
     }
     if (bg===4){
+
+        document.querySelector('.lhs').id=''
+        document.querySelector('.lhs').id='forest'
+
         document.body.style.backgroundImage=`url(${bg}.png)`
 
     }
 })
 if (bg===0){
+    document.querySelector('.lhs').id=''
+    document.querySelector('.lhs').id='none'
+
+
+
+
+
     document.body.style.backgroundImage='none'
 
+
+
+
+
+
 }
+document.querySelector('.deleteallbtn').addEventListener('click', async ()=>{
+    const { value: del } = await Swal.fire({
+        title: 'Are you sure?',
+        text: 'The games and the codes will be gone for a very long time',
+        showCancelButton: true,
+        confirmButtonText: 'Yes',
+    });
+    if (!del) return;
+    if (del){
+        storage={}
+        updateGUI()
+    }
+})
