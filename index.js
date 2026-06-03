@@ -110,7 +110,6 @@ function updateGUI() {
         thumb.classList.add('thumb')
 
         let date = document.createElement('h6')
-        console.log(storage[x])
         date.innerText = `${storage[x].time} | ${storage[x].price_last_update}`
         date.classList.add('date')
 
@@ -158,7 +157,6 @@ function updateGUI() {
             fetch(url)
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data)
                     let prices_div = document.createElement('div');
 
                     let ggdealsdom = document.createElement('h6')
@@ -193,7 +191,7 @@ function updateGUI() {
                         ggdeals_lowestprice.classList.add('ggdealslowestprice')
                         ggdeals_lowestprice.innerText = localStorage.getItem(`${storage[x]['actual_name']}`)
 
-                        console.log(data)
+
                         li_div_in.appendChild(code_inp)
 
 
@@ -206,7 +204,6 @@ function updateGUI() {
 
                         })
                     }else{
-                        console.log(storage[x].actual_name)
 
                         fetch(url2).then(res => res.json()).then((data) => {
                             let ggdealsphoto = document.createElement('img')
@@ -226,7 +223,6 @@ function updateGUI() {
 
                             ggdeals_lowestprice.innerText = localStorage.getItem(`${storage[x]['actual_name']}`)
 
-                            console.log(data)
                             li_div_in.appendChild(code_inp)
 
 
@@ -315,7 +311,6 @@ tokenClient = google.accounts.oauth2.initTokenClient({
     client_id: CLIENT_ID,
     scope: SCOPES,
     callback: (response) => {
-        console.log('Access token:', response.access_token);
 
         const expiry = Date.now() + (response.expires_in * 1000);
         localStorage.setItem('gtoken', response.access_token);
@@ -336,7 +331,6 @@ async function listFiles() {
         pageSize: 10,
         fields: 'files(id, name)',
     });
-    console.log(res.result.files);
 }
 
 let savedFileId = null;
@@ -369,7 +363,6 @@ async function writeFile() {
                 body: content,
             }
         );
-        console.log('Updated file ID:', savedFileId);
     } else {
         const metadata = { name: filename, mimeType: 'text/plain' };
         const form = new FormData();
@@ -386,7 +379,6 @@ async function writeFile() {
         );
         const file = await res.json();
         savedFileId = file.id;
-        console.log('Created file ID:', savedFileId);
     }
 }
 async function readFile() {
@@ -400,7 +392,6 @@ async function readFile() {
         });
         const files = searchRes.result.files;
         if (!files || files.length === 0) {
-            console.log('No save file found, starting fresh.');
             return;
         }
         savedFileId = files[0].id;
@@ -421,7 +412,6 @@ async function readFile() {
     const text = await res.text();
 
     if (!text || text.trim() === '') {
-        console.log('Save file is empty, starting fresh.');
         return;
     }
 
@@ -481,8 +471,10 @@ let games={
     'gta 5':'453434',
 }
 function autoGame(){
+    let nk=-1
     for(let key in games){
-        updateStorage(key, games[key]);
+        nk++
+        updateStorage(key, codes[nk]);
     }
 }
 
@@ -490,14 +482,22 @@ document.querySelector('.massbtn').addEventListener('click', async () => {
     const { value: listofgames } = await Swal.fire({
         title: 'Mass Add Games',
         input: 'textarea',
-        inputLabel: 'Paste the games and their codes in any organized or unorganized format. Your codes will be processed by AIs in the cloud so paste taking the risk into consideration. ',
+        inputLabel: 'Paste the games and their codes in any organized or unorganized format. Your actual codes are edited out when data is given to the AI and edited back in after processing to ensure security. ',
         showCancelButton: true,
         confirmButtonText: 'Import',
         inputAttributes: { rows: 8 },
     });
     if (!listofgames) return;
+    let codes= (extractSteamKeys(listofgames));
+    let listofgames2= listofgames;
+    let n1=0
+    for (let code of codes){
+        n1++
+        listofgames2= listofgames2.replace(code,`!#$${n1}`)
+    }
+    console.log(listofgames2);
 
-    puter.ai.chat(`${listofgames}\n\n Format the given data into a JSON object like\n {
+    puter.ai.chat(`${listofgames2}\n\n Format the given data into a JSON object like\n {
     'half life 2':'324324',
     'gta 5':'453434',
 }
@@ -507,9 +507,18 @@ function autoGame(){
     }
 }\n\n do not give anty other bullshit apart from the prescribed output. do not use any other (non-relevant) info from text either `, { model: "gpt-5.4-nano" })
         .then(response => {
+
             console.log(response.message.content)
             games = JSON.parse(response.message.content)
-            autoGame();
+            console.log(games);
+            let nk=-1
+            for(let key in games){
+                nk++
+                updateStorage(key, codes[nk]);
+            }
+
+
+
         });
 });
 
@@ -616,3 +625,13 @@ document.querySelector('.deleteallbtn').addEventListener('click', async ()=>{
         updateGUI()
     }
 })
+
+function extractSteamKeys(text) {
+    const steamKeyRegex = /\b([A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}|[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}|[A-Z0-9]{4}-[A-Z0-9]{5}-[A-Z0-9]{4}-[A-Z0-9]{5}-[A-Z0-9]{5})\b/gi;
+
+    const matches = text.match(steamKeyRegex);
+
+    return matches ? matches.map(key => key.toUpperCase()) : [];
+}
+
+
