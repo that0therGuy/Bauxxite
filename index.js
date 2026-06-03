@@ -40,6 +40,7 @@ function updateStorage(game, key) {
                 actual_name: data.results[0].name,
                 thumbnail: data.results[0].background_image,
                 time: `Listing Date: ${new Date().getDate() }/${new Date().getMonth()+1}/${new Date().getFullYear()}`,
+                price_last_update: `Prices Updated on: ${new Date().getDate() }/${new Date().getMonth()+1}/${new Date().getFullYear()}`,
             }
 
             order.push(gameKey)
@@ -109,8 +110,10 @@ function updateGUI() {
         thumb.classList.add('thumb')
 
         let date = document.createElement('h6')
-        date.innerText = storage[x].time
+        console.log(storage[x])
+        date.innerText = `${storage[x].time} | ${storage[x].price_last_update}`
         date.classList.add('date')
+
 
         let li = document.createElement('li')
         li.classList.add('gameset')
@@ -150,51 +153,72 @@ function updateGUI() {
         let lowest_shop_price=0;
         let li_date = document.createElement('div')
         li_date.setAttribute('id', `li_date`)
-        fetch(url)
-            .then(res => res.json())
-            .then(data => {
-                console.log(data)
-                let prices_div = document.createElement('div');
 
-                let ggdealsdom = document.createElement('h6')
-                ggdealsdom.style.display = 'none'
-                ggdealsdom.classList.add('ggdealsdom')
-
-                prices_div.appendChild(ggdealsdom)
-                li_div_in.appendChild(prices_div)
-
-                const searchName = storage[x].actual_name.toLowerCase();
-
-                const bestMatch =
-                    data.items.find(item => item.name.toLowerCase() === searchName) ??
-                    data.items.find(item => item.name.toLowerCase().startsWith(searchName) && !item.name.toLowerCase().includes('remaster')) ??
-                    data.items[0];
-
-                const target2 = `https://api.gg.deals/v1/prices/by-steam-app-id/?ids=${bestMatch.id}&key=SiDijFD5OmudA7TaT0QxQrvvmPm8f24l&region=us`
-                const url2 = `https://proxy.corsfix.com/?${target2}`
-                let steamid = bestMatch.id
-
-                fetch(url2).then(res => res.json()).then((data) => {
-                    let ggdealsphoto = document.createElement('img')
-                    ggdealsphoto.src = 'gg.jpg'
-                    ggdealsphoto.height = '24'
-                    ggdealsphoto.width = '24'
-                    ggdealsphoto.classList.add('ggdealsphoto')
-                    prices_div.appendChild(ggdealsphoto)
-
-                    let ggdeals_lowestprice = document.createElement('h6')
-                    prices_div.appendChild(ggdeals_lowestprice)
-                    prices_div.classList.add('prices_div')
-                    ggdeals_lowestprice.classList.add('ggdealslowestprice')
-                    lowest_keyshop_price= data.data[steamid].prices.currentKeyshops
-                    lowest_shop_price=data.data[steamid].prices.currentRetail
-                    ggdeals_lowestprice.innerText = `Lowest Keyshop Price: \$${lowest_keyshop_price}\nLowest Store Price: \$${lowest_shop_price}`;
+        function fetchinggg(){
+            fetch(url)
+                .then(res => res.json())
+                .then(data => {
                     console.log(data)
-                    li_div_in.appendChild(code_inp)
+                    let prices_div = document.createElement('div');
+
+                    let ggdealsdom = document.createElement('h6')
+                    ggdealsdom.style.display = 'none'
+                    ggdealsdom.classList.add('ggdealsdom')
+
+                    prices_div.appendChild(ggdealsdom)
+                    li_div_in.appendChild(prices_div)
+
+                    const searchName = storage[x].actual_name.toLowerCase();
+
+                    const bestMatch =
+                        data.items.find(item => item.name.toLowerCase() === searchName) ??
+                        data.items.find(item => item.name.toLowerCase().startsWith(searchName) && !item.name.toLowerCase().includes('remaster')) ??
+                        data.items[0];
+
+                    const target2 = `https://api.gg.deals/v1/prices/by-steam-app-id/?ids=${bestMatch.id}&key=SiDijFD5OmudA7TaT0QxQrvvmPm8f24l&region=us`
+                    const url2 = `https://proxy.corsfix.com/?${target2}`
+                    let steamid = bestMatch.id
+                    if (!localStorage.getItem(`${storage[x]}`)) {
+                        localStorage.setItem(`${storage[x]}`, `Lowest Keyshop Price: \$${lowest_keyshop_price}\nLowest Store Price: \$${lowest_shop_price}`)
+                    }
+
+                    fetch(url2).then(res => res.json()).then((data) => {
+                        let ggdealsphoto = document.createElement('img')
+                        ggdealsphoto.src = 'gg.jpg'
+                        ggdealsphoto.height = '24'
+                        ggdealsphoto.width = '24'
+                        ggdealsphoto.classList.add('ggdealsphoto')
+                        prices_div.appendChild(ggdealsphoto)
+
+                        let ggdeals_lowestprice = document.createElement('h6')
+                        prices_div.appendChild(ggdeals_lowestprice)
+                        prices_div.classList.add('prices_div')
+                        ggdeals_lowestprice.classList.add('ggdealslowestprice')
+                        lowest_keyshop_price= data.data[steamid].prices.currentKeyshops
+                        lowest_shop_price=data.data[steamid].prices.currentRetail
+
+                        ggdeals_lowestprice.innerText = localStorage.getItem(`${storage[x]}`)
+
+                        console.log(data)
+                        li_div_in.appendChild(code_inp)
 
 
+                        prices_div.addEventListener('click', async function () {
+                            prices_div.remove()
+                            fetchinggg()
+                            storage[x].price_last_update=`Prices Updated on: ${new Date().getDate() }/${new Date().getMonth()+1}/${new Date().getFullYear()}`
+                            date.innerText = `${storage[x].time} | ${storage[x].price_last_update}`
+
+
+                        })
+
+
+                    })
                 })
-            })
+
+        }
+
+        fetchinggg()
 
         li_date.appendChild(li)
         li_date.appendChild(date)

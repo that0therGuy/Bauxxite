@@ -9,6 +9,8 @@ body{
     background-image: url('4.png');
     background-color:rgb(255,255,255);
     background-size: cover;
+
+    height:100vh;
     padding:0;
     margin:0;
 }
@@ -100,7 +102,7 @@ button p{
 
 }
 .createbtn:hover,.massbtn:hover,.impbtn:hover,.deleteallbtn:hover{
-    background-color:rgb(32,32,32);
+    background-color:rgb(32,32,32,.9);
     color:white;
     border-radius:50px;
     scale:.7;
