@@ -154,7 +154,7 @@ function updateGUI() {
         let li_date = document.createElement('div')
         li_date.setAttribute('id', `li_date`)
 
-        function fetchinggg(){
+        function fetchinggg(islocal){
             fetch(url)
                 .then(res => res.json())
                 .then(data => {
@@ -178,11 +178,8 @@ function updateGUI() {
                     const target2 = `https://api.gg.deals/v1/prices/by-steam-app-id/?ids=${bestMatch.id}&key=SiDijFD5OmudA7TaT0QxQrvvmPm8f24l&region=us`
                     const url2 = `https://proxy.corsfix.com/?${target2}`
                     let steamid = bestMatch.id
-                    if (!localStorage.getItem(`${storage[x]}`)) {
-                        localStorage.setItem(`${storage[x]}`, `Lowest Keyshop Price: \$${lowest_keyshop_price}\nLowest Store Price: \$${lowest_shop_price}`)
-                    }
 
-                    fetch(url2).then(res => res.json()).then((data) => {
+                    if (islocal){
                         let ggdealsphoto = document.createElement('img')
                         ggdealsphoto.src = 'gg.jpg'
                         ggdealsphoto.height = '24'
@@ -194,10 +191,7 @@ function updateGUI() {
                         prices_div.appendChild(ggdeals_lowestprice)
                         prices_div.classList.add('prices_div')
                         ggdeals_lowestprice.classList.add('ggdealslowestprice')
-                        lowest_keyshop_price= data.data[steamid].prices.currentKeyshops
-                        lowest_shop_price=data.data[steamid].prices.currentRetail
-
-                        ggdeals_lowestprice.innerText = localStorage.getItem(`${storage[x]}`)
+                        ggdeals_lowestprice.innerText = localStorage.getItem(`${storage[x]['actual_name']}`)
 
                         console.log(data)
                         li_div_in.appendChild(code_inp)
@@ -211,14 +205,55 @@ function updateGUI() {
 
 
                         })
+                    }else{
+                        console.log(storage[x].actual_name)
+
+                        fetch(url2).then(res => res.json()).then((data) => {
+                            let ggdealsphoto = document.createElement('img')
+                            ggdealsphoto.src = 'gg.jpg'
+                            ggdealsphoto.height = '24'
+                            ggdealsphoto.width = '24'
+                            ggdealsphoto.classList.add('ggdealsphoto')
+                            prices_div.appendChild(ggdealsphoto)
+
+                            let ggdeals_lowestprice = document.createElement('h6')
+                            prices_div.appendChild(ggdeals_lowestprice)
+                            prices_div.classList.add('prices_div')
+                            ggdeals_lowestprice.classList.add('ggdealslowestprice')
+                            lowest_keyshop_price= data.data[steamid].prices.currentKeyshops
+                            lowest_shop_price=data.data[steamid].prices.currentRetail
+                            localStorage.setItem(`${storage[x]['actual_name']}`, `Lowest Keyshop Price: \$${lowest_keyshop_price}\nLowest Store Price: \$${lowest_shop_price}`)
+
+                            ggdeals_lowestprice.innerText = localStorage.getItem(`${storage[x]['actual_name']}`)
+
+                            console.log(data)
+                            li_div_in.appendChild(code_inp)
 
 
-                    })
+                            prices_div.addEventListener('click', async function () {
+                                prices_div.remove()
+                                fetchinggg()
+                                storage[x].price_last_update=`Prices Updated on: ${new Date().getDate() }/${new Date().getMonth()+1}/${new Date().getFullYear()}`
+                                date.innerText = `${storage[x].time} | ${storage[x].price_last_update}`
+
+
+                            })
+
+
+                        })
+                    }
                 })
 
         }
+        if (localStorage.getItem(`${storage[x]['actual_name']}`)) {
+            fetchinggg(true)
 
-        fetchinggg()
+        }
+        else{
+            fetchinggg()
+
+        }
+
 
         li_date.appendChild(li)
         li_date.appendChild(date)
