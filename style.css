@@ -5,6 +5,22 @@
     font-weight:350;
 
 }
+
+
+::-webkit-scrollbar {
+    background: rgb(100,100,100,.5);
+
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgb(200,200,200);
+    margin:10px;
+    border-right:none;
+    box-shadow:0 0 10px rgb(191 191 191);
+    border-left: 1px solid black;
+}
+
 body{
     background-image: url('4.png');
     background-color:rgb(255,255,255);
@@ -157,6 +173,19 @@ li{
 
 
 }
+@media screen and (min-width: 480px) {
+    li {
+        font-size: 17px;
+    }
+
+
+    .li_div_p{
+        font-size:1em;
+    }
+}
+
+
+
 .li_div{
     display:flex;
     flex-direction: row;
@@ -247,13 +276,12 @@ p{
     align-items: center;
     justify-content: center;
     text-align: center;
-    gap:30px;
-}
-.li_div_p{
-    font-size:1.5em;
-}
+    gap:30px;}
+
 .li_div_p:focus{
     outline:none;
+    text-decoration: underline;
+
 }
 .ggdealsdom{
     font-size:.5em;
