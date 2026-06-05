@@ -154,11 +154,15 @@ function updateGUI() {
         li_date.setAttribute('id', `li_date`)
 
         function fetchinggg(islocal){
+            let prices_div = document.createElement('div');
+
             fetch(url)
                 .then(res => res.json())
                 .then(data => {
-                    let prices_div = document.createElement('div');
 
+                    if (!data.items || !data.items.length) {
+                        throw new Error("No Steam results");
+                    }
                     let ggdealsdom = document.createElement('h6')
                     ggdealsdom.style.display = 'none'
                     ggdealsdom.classList.add('ggdealsdom')
@@ -238,7 +242,35 @@ function updateGUI() {
 
                         })
                     }
+                }).catch(e=>{
+                    console.log(e)
+                let ggdealsphoto = document.createElement('img')
+                ggdealsphoto.src = 'gg.jpg'
+                ggdealsphoto.height = '24'
+                ggdealsphoto.width = '24'
+                ggdealsphoto.classList.add('ggdealsphoto')
+                prices_div.appendChild(ggdealsphoto)
+
+                let ggdeals_lowestprice = document.createElement('h6')
+                prices_div.appendChild(ggdeals_lowestprice)
+                prices_div.classList.add('prices_div')
+                ggdeals_lowestprice.classList.add('ggdealslowestprice')
+                ggdeals_lowestprice.innerText = 'prices failed'
+
+
+                li_div_in.appendChild(code_inp)
+
+
+                prices_div.addEventListener('click', async function () {
+                    prices_div.remove()
+                    fetchinggg()
+                    storage[x].price_last_update=`Prices Updated on: ${new Date().getDate() }/${new Date().getMonth()+1}/${new Date().getFullYear()}`
+                    date.innerText = `${storage[x].time} | ${storage[x].price_last_update}`
+
+
                 })
+
+            })
 
         }
         if (localStorage.getItem(`${storage[x]['actual_name']}`)) {

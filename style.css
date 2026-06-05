@@ -8,17 +8,16 @@
 
 
 ::-webkit-scrollbar {
-    background: rgb(100,100,100,.5);
+    background: rgb(197 196 196 / 0.5);
 
 }
 
 ::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    background: rgb(200,200,200);
+    background: rgb(83 83 83);
     margin:10px;
     border-right:none;
-    box-shadow:0 0 10px rgb(191 191 191);
-    border-left: 1px solid black;
+    box-shadow:0 0 10px rgb(85 85 85);
 }
 
 body{
@@ -222,6 +221,8 @@ ul{
     border:1px solid #7ad397;
     letter-spacing: 3px;
     color: #001900;
+    box-shadow: 0 0 10px rgb(192 248 192 / 0.4);
+
 
 }
 li:focus{
@@ -299,6 +300,7 @@ p{
     width:fit-content;
     padding:10px;
     background-color: rgb(195,255,195,.6);
+    box-shadow: 0 0 10px rgb(143 250 143 / 0.4);
     backdrop-filter: blur(20px);
     border:1px solid #4bd177;
 
