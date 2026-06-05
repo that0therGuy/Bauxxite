@@ -200,7 +200,10 @@ function updateGUI() {
 
 
                         prices_div.addEventListener('click', async function () {
-                            prices_div.remove()
+                            prices_div.style.opacity='0'
+                            setTimeout(()=>{prices_div.remove()},500)
+
+
                             fetchinggg()
                             storage[x].price_last_update=`Prices Updated on: ${new Date().getDate() }/${new Date().getMonth()+1}/${new Date().getFullYear()}`
                             date.innerText = `${storage[x].time} | ${storage[x].price_last_update}`

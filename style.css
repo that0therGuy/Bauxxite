@@ -290,6 +290,8 @@ p{
     font-size:.5em;
 }
 .prices_div{
+    opacity:1;
+    transition: opacity .5s;
     display:flex;
     align-items: center;
     justify-content: center;
